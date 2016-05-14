@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 25 Dec, 2013 11:38:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+
+	<class name="com.backend.bean.Admin" table="USER">
+		<id name="id" type="long" access="field">
+			<column name="ID" />
+			<generator class="increment" />
+		</id>
+		<version name="version" type="integer"></version>
+		<property name="userName" type="java.lang.String">
+			<column name="USERNAME" />
+		</property>
+		<property name="password" type="java.lang.String">
+			<column name="PASSWORD" />
+		</property>
+		<property name="emailID" type="java.lang.String">
+		</property>
+		
+		<property name="date" type="java.util.Date">
+			<column name="date" />
+		</property>
+	</class>
+	<class name="com.backend.bean.Category" table="category" >
+	    <cache usage="read-only"/>
+		<id name="id" type="long" access="field">
+			<column name="ID" />
+			<generator class="increment">
+			</generator>
+		</id>
+		<version name="version" type="integer"></version>
+		<property name="paperCategory" type="java.lang.String">
+			<column name="paperCategory" />
+		</property>
+		<property name="description" type="java.lang.String">
+			<column name="description" />
+		</property>
+		<property name="status" type="boolean">
+			<column name="status" />
+		</property>
+		<property name="creationDate" type="java.util.Date">
+			<column name="creationDate" />
+		</property>
+
+		<set name="papers" table="paper" inverse="true" lazy="false"
+			fetch="select" cascade="delete" order-by="id" batch-size="2">
+			
+			<key>
+				<column name="category" not-null="true" />
+			</key>
+			<one-to-many class="com.backend.bean.Paper" />
+		</set>
+	</class>
+	<class name="com.backend.bean.Paper" table="PAPER" >
+	   
+		<id name="id" type="long" access="field">
+			<column name="ID" />
+			<generator class="increment" />
+		</id>
+		<version name="version" type="integer" column="VERSION"></version>
+		<property name="paperName" type="java.lang.String">
+			<column name="paperName" />
+		</property>
+		<property name="description" type="java.lang.String">
+			<column name="description" />
+		</property>
+		<property name="status" type="boolean">
+			<column name="status" />
+		</property>
+		<property name="createDate" type="java.util.Date">
+			<column name="createDate" />
+		</property>
+		<many-to-one name="category" class="com.backend.bean.Category"
+			fetch="select" not-null="true" lazy="false"></many-to-one>
+		<set name="questions" table="questions" inverse="true" lazy="false"
+			fetch="join" cascade="delete" order-by="id" >
+			<cache usage="read-only"/>
+			<key>
+				<column name="paper" not-null="true" />
+			</key>
+			<one-to-many class="com.backend.bean.Question" />
+		</set>
+	</class>
+
+	<class name="com.backend.bean.Question" table="QUESTIONS">
+	  
+		<id name="id" type="long" access="field">
+			<column name="ID" />
+			<generator class="increment" />
+		</id>
+
+		<version name="version" column="VERSION" type="integer"></version>
+		<property name="question" type="java.lang.String">
+			<column name="QUESTION" />
+		</property>
+		<property name="oa" type="java.lang.String">
+			<column name="OA" />
+		</property>
+		<property name="ob" type="java.lang.String">
+			<column name="OB" />
+		</property>
+		<property name="oc" type="java.lang.String">
+			<column name="OC" />
+		</property>
+		<property name="od" type="java.lang.String">
+			<column name="OD" />
+		</property>
+
+		<property name="createDate" type="java.util.Date">
+			<column name="createDate" />
+		</property>
+		<property name="answere" type="java.lang.String">
+			<column name="ANSWERE" />
+		</property>
+		<many-to-one name="paper" class="com.backend.bean.Paper"
+			fetch="select" not-null="true" lazy="false">
+		   
+		</many-to-one>
+	</class>
+
+
+
+</hibernate-mapping>
